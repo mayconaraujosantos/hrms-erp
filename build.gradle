@@ -1,0 +1,29 @@
+plugins {
+	id 'org.springframework.boot' version "${springBootVersion}"
+	id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+	id 'java'
+}
+
+description   = description
+group         = group
+version       = version
+
+sourceCompatibility = '11'
+
+apply from: 'dependencies.gradle'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

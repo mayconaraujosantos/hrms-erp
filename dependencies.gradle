@@ -1,0 +1,30 @@
+def lombokVersion  = '1.18.22'
+def flywaydbVersion = '9.0.0'
+def postgreSQLVersion = '42.4.1'
+def postgresTestContainersVersion = '1.17.3'
+def testContainersVersion = '1.17.3'
+def junitVersion = '4.12'
+def springOpenApiDoc = '1.6.6'
+def assertjVersion = '3.22.0'
+def mapStructVersion = '1.4.2.Final'
+
+dependencies {
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation "org.springdoc:springdoc-openapi-ui:${springOpenApiDoc}"
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
+	
+    compileOnly 'org.projectlombok:lombok'
+	
+    runtimeOnly 'org.postgresql:postgresql'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+	
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+	testImplementation "org.testcontainers:postgresql:${postgresTestContainersVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.assertj:assertj-core:${assertjVersion}"
+}
