@@ -25,3 +25,7 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
+        env:
+          LOGGING_LEVEL_ROOT: ${{ secrets.LOGGING_LEVEL_ROOT }}
+          LOGGING_COM_MKDATA_COMPANY: ${{ secrets.LOGGING_COM_MKDATA_COMPANY }}
+
