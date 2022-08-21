@@ -26,6 +26,9 @@ jobs:
         with:
           arguments: build
         env:
+          SPRING_DATA_SOURCE_URL: ${{ secrets.SPRING_DATA_SOURCE_URL }}
+          SPRING_DATA_SOURCE_USERNAME: ${{ secrets.SPRING_DATA_SOURCE_USERNAME }}
+          SPRING_DATA_SOURCE_PASSWORD: ${{ secrets.SPRING_DATA_SOURCE_PASSWORD }}
           LOGGING_LEVEL_ROOT: ${{ secrets.LOGGING_LEVEL_ROOT }}
           LOGGING_COM_MKDATA_COMPANY: ${{ secrets.LOGGING_COM_MKDATA_COMPANY }}
 
