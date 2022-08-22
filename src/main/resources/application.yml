@@ -34,7 +34,7 @@ server:
     include-binding-errors: always
 logging:
   level:
-    ROOT: ${LOGGING_LEVEL_ROOT} # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
+    ROOT: INFO # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
     com:
       mkdata:
-        company: ${LOGGING_COM_MKDATA_COMPANY} # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
+        company: INFO # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
