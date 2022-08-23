@@ -4,7 +4,13 @@ on:
     branches:
       - main
   pull_request:
+    branches: 
+      - main
     types: [opened, synchronize, reopened]
+env: 
+  SPRING_DATA_SOURCE_URL: ${{ secrets.SPRING_DATA_SOURCE_URL }}
+  SPRING_DATA_SOURCE_USERNAME: ${{ secrets.SPRING_DATA_SOURCE_USERNAME }}
+  SPRING_DATA_SOURCE_PASSWORD: ${{ secrets.SPRING_DATA_SOURCE_PASSWORD }}
 jobs:
   build:
     name: SonarCloud
@@ -34,3 +40,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonarqube --info
+
