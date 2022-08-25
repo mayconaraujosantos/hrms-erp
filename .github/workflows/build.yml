@@ -9,18 +9,13 @@ on:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
     
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  SPRING_DATA_SOURCE_URL: ${{ secrets.SPRING_DATA_SOURCE_URL }}
-  SPRING_DATA_SOURCE_USERNAME: ${{ secrets.SPRING_DATA_SOURCE_USERNAME }}
-  SPRING_DATA_SOURCE_PASSWORD: ${{ secrets.SPRING_DATA_SOURCE_PASSWORD }}
 
 jobs:
   Build:
     permissions:
       checks: write
     runs-on: ubuntu-latest
+    environment: Development
     steps:
       - uses: actions/checkout@v2
         with:
