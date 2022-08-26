@@ -1,7 +1,9 @@
 plugins {
 	id 'org.springframework.boot' version "${springBootVersion}"
 	id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
-	id "org.sonarqube" version "3.4.0.2513"
+	id 'org.sonarqube' version '3.4.0.2513'
+	id 'jacoco'
+    id 'checkstyle'
 	id 'java'
 }
 
@@ -23,14 +25,75 @@ repositories {
 	mavenCentral()
 }
 
+jacoco {
+	toolVersion = "0.8.5"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+		xml.destination file("$buildDir/jacoco/jacoco.xml")
+        csv.enabled false
+        html.enabled true
+        html.destination file("$buildDir/reports/jacoco")
+        
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.80
+            }
+            excludes = []
+        }
+
+        rule {
+            enabled = true
+            limit {
+                counter = 'METHOD'
+                minimum = 0.80
+            }
+            excludes = []
+        }
+    }
+}
+
 sonarqube {
 	properties {
 		property "sonar.projectKey",  "mayconaraujosantos_mkdata-company"
 		property "sonar.organization",  "mayconaraujosantos"
 		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
 	}
 }
 
+checkstyle {
+    toolVersion = '8.12'
+    configFile = file("${rootDir}/config/checkstyle.xml")
+}
+
+checkstyleMain {
+    source = 'src/main/java'
+}
+
+checkstyleTest {
+    source = 'src/test/java'
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false 
+        html.enabled true
+    }
+}
+
+test.finalizedBy jacocoTestReport
+jacocoTestCoverageVerification.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
 
 tasks.named('test') {
 	useJUnitPlatform()

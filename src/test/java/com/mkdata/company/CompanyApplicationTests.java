@@ -7,11 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class CompanyApplicationTests {
-	private static boolean isAdmin = true;
+	private static boolean IS_ADMIN = true;
 	
+	/**
+	 * 
+	 */
 	@Test
 	void contextLoads() {
-		assertTrue(isAdmin);
+		CompanyApplication.main(new String[] {});
+		assertTrue(IS_ADMIN);
 	}
 
 }
