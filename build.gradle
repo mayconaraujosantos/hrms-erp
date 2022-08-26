@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
 	id 'org.sonarqube' version '3.4.0.2513'
 	id 'jacoco'
+    id 'checkstyle'
 	id 'java'
 }
 
@@ -69,9 +70,31 @@ sonarqube {
 		property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
 	}
 }
-test {
-	finalizedBy jacocoTestReport
+
+checkstyle {
+    toolVersion = '8.12'
+    configFile = file("${rootDir}/config/checkstyle.xml")
 }
+
+checkstyleMain {
+    source = 'src/main/java'
+}
+
+checkstyleTest {
+    source = 'src/test/java'
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false 
+        html.enabled true
+    }
+}
+
+test.finalizedBy jacocoTestReport
+jacocoTestCoverageVerification.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
