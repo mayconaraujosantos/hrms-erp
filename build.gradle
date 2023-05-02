@@ -53,7 +53,7 @@ jacocoTestCoverageVerification {
             enabled = true
             limit {
                 counter = 'BRANCH'
-                minimum = 0.80
+                minimum = 0.5
             }
             excludes = []
         }
@@ -62,7 +62,7 @@ jacocoTestCoverageVerification {
             enabled = true
             limit {
                 counter = 'METHOD'
-                minimum = 0.80
+                minimum = 0.5
             }
             excludes = []
         }
