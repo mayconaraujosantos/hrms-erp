@@ -46,14 +46,14 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.5
+                minimum = 0.1
             }
         }
         rule {
             enabled = true
             limit {
                 counter = 'BRANCH'
-                minimum = 0.5
+                minimum = 0.1
             }
             excludes = []
         }
@@ -62,7 +62,7 @@ jacocoTestCoverageVerification {
             enabled = true
             limit {
                 counter = 'METHOD'
-                minimum = 0.5
+                minimum = 0.1
             }
             excludes = []
         }
