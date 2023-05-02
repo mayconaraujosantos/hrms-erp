@@ -11,7 +11,7 @@ description   = description
 group         = group
 version       = version
 
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 apply from: 'dependencies.gradle'
 
@@ -26,10 +26,12 @@ repositories {
 }
 
 jacoco {
-	toolVersion = "0.8.5"
+	toolVersion = "0.8.9"
+    getReportsDir()
 }
 
 jacocoTestReport {
+    dependsOn test
     reports {
         xml.enabled true
 		xml.destination file("$buildDir/jacoco/jacoco.xml")
@@ -42,6 +44,11 @@ jacocoTestReport {
 
 jacocoTestCoverageVerification {
     violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
         rule {
             enabled = true
             limit {
@@ -89,6 +96,10 @@ tasks.withType(Checkstyle) {
         xml.enabled false 
         html.enabled true
     }
+}
+
+test {
+    finalizedBy jacocoTestReport
 }
 
 test.finalizedBy jacocoTestReport
