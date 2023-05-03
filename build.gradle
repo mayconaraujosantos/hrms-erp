@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version "${springBootVersion}"
 	id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
 	id 'org.sonarqube' version '3.4.0.2513'
+    id "org.flywaydb.flyway" version "9.17.0"
 	id 'jacoco'
     id 'checkstyle'
 	id 'java'
@@ -21,13 +22,67 @@ configurations {
 	}
 }
 
+def envProperties = new Properties()
+file('.env').withInputStream { envProperties.load(it) }
+String dbUrl = envProperties['DB_URL']
+String dbUser = envProperties['DB_USER']
+String dbPass = envProperties['DB_PASSWORD']
+
+
+
+
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+static String getCurrentDateTimeFormatted() {
+    LocalDateTime now = LocalDateTime.now()
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+    return now.format(formatter)
+}
+
+import org.flywaydb.gradle.task.FlywayMigrateTask
+
+tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
+    group = 'database'
+    description = 'Generate SQL file using Flyway with timestamp and table name'
+
+    // Defina a configuração do Flyway aqui (ou reutilize a configuração global do Flyway)
+    url = "${dbUrl}"
+    user = "${dbUser}"
+    password = "${dbPass}"
+    locations = ['filesystem:src/main/resources/db/migration']
+
+    // Crie um parâmetro de entrada para receber o nome da tabela
+    ext.tableName = 'V1__'
+
+    doLast {
+        if (tableName.trim()) {
+            // Ative a geração do arquivo SQL com data e hora e nome da tabela
+            String timestamp = getCurrentDateTimeFormatted()
+            // Create the SQL file with the table name and timestamp
+            File outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}.sql")
+            outputFile.createNewFile()
+
+        } else {
+            println "Please provide a table name using -PtableName=your_table_name"
+        }
+    }
+}
+
+
+flyway {
+    url = "${dbUrl}"
+    user = "${dbUser}"
+    password = "${dbPass}"
+    locations = ['filesystem:src/main/resources/db/migration']
+}
+
 repositories {
 	mavenCentral()
 }
 
 jacoco {
 	toolVersion = "0.8.9"
-    getReportsDir()
 }
 
 jacocoTestReport {
@@ -91,9 +146,9 @@ checkstyleTest {
     source = 'src/test/java'
 }
 
-tasks.withType(Checkstyle) {
+tasks.withType(Checkstyle).configureEach {
     reports {
-        xml.enabled false 
+        xml.enabled false
         html.enabled true
     }
 }
