@@ -2,6 +2,7 @@ package com.mkdata.company;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,6 +13,6 @@ class CompanyApplicationTests {
   void contextLoads() {
     String[] args = { "" };
     Runnable runnable = () -> CompanyApplication.main(args);
-    assertNotNull(runnable);
+    Assertions.assertNotNull(runnable);
   }
 }
