@@ -1,31 +1,35 @@
-def lombokVersion  = '1.18.22'
-def flywayVersion = '9.8.1'
-def postgreSQLVersion = '42.4.1'
-def postgresTestContainersVersion = '1.17.3'
-def testContainersVersion = '1.17.3'
-def junitVersion = '4.12'
-def springOpenApiDoc = '1.6.6'
+def lombokVersion = '1.18.24'
+def flywaydbVersion = '9.8.1'
+def postgreSQLVersion = '42.6.0'
+def postgresTestContainersVersion = '1.18.0'
+def testContainersVersion = '1.18.0'
+def junitVersion = '4.13.2'
+def springOpenApiDoc = '1.7.0'
 def assertjVersion = '3.22.0'
-def mapStructVersion = '1.4.2.Final'
-def dotEnvVersion = '6.2.2'
+def mapStructVersion = '1.5.3.Final'
 
 dependencies {
-    developmentOnly "org.springframework.boot:spring-boot-devtools"
+	developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
 	implementation "org.springdoc:springdoc-openapi-ui:${springOpenApiDoc}"
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 	implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
-	
-    compileOnly 'org.projectlombok:lombok'
-	
-    runtimeOnly 'org.postgresql:postgresql'
+	implementation "org.postgresql:postgresql:${postgreSQLVersion}"
+	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+	implementation("com.diffplug.spotless:spotless-lib:${spotlessLibVersion}")
+	implementation("com.diffplug.spotless:spotless-plugin-gradle:${spotlessVersion}")
 
-	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
-	
-    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+
+	testImplementation "junit:junit:${junitVersion}"
+	testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
 	testImplementation "org.testcontainers:postgresql:${postgresTestContainersVersion}"
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 	testImplementation "org.assertj:assertj-core:${assertjVersion}"
 }
