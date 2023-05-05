@@ -22,11 +22,9 @@ configurations {
 	}
 }
 
-def envProperties = new Properties()
-file('.env').withInputStream { envProperties.load(it) }
-String dbUrl = envProperties['DB_URL']
-String dbUser = envProperties['DB_USER']
-String dbPass = envProperties['DB_PASSWORD']
+def dbUrl = System.getenv('DATABASE_URL')
+def dbUser = System.getenv('PGUSER')
+def dbPass = System.getenv('PGPASSWORD')
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -133,6 +131,7 @@ spotless {
 			include '**/*.java'
 			exclude '**/build/**', '**/build-*/**'
 		}
+        googleJavaFormat('1.17.0')
 		toggleOffOn()
 		palantirJavaFormat()
 		removeUnusedImports()
