@@ -8,7 +8,7 @@ on:
       - main
     types: [opened, synchronize, reopened]
   workflow_dispatch:
-    
+
 
 jobs:
   Build:
@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
-        env: 
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Development
-      url: "https://mkdata-company.herokuapp.com/"
+      url: "https://mkdata-hrms-staging.up.railway.app"
     steps:
       - name: Deploy
         run: echo I am deploying!
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Staging
-      url: "https://mkdata-company.herokuapp.com/"
+      url: "https://mkdata-hrms-staging.up.railway.app"
     steps:
       - name: Deploy
         run: echo I am deploying!
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Production
-      url: "https://mkdata-company.herokuapp.com/"
+      url: "https://mkdata-hrms-staging.up.railway.app"
     steps:
       - name: Deploy
         run: echo I am deploying!
