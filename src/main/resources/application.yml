@@ -1,40 +1,43 @@
 spring:
-  output:
-    ansi:
-      enabled: ALWAYS
-  main:
-    banner-mode: "OFF"
-  data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-        default-page-size: 20
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATA_SOURCE_URL}
-    username: ${SPRING_DATA_SOURCE_USERNAME}
-    password: ${SPRING_DATA_SOURCE_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    database: postgresql
-    show-sql: true
-    generate-ddl: false
-  jackson:
-    date-format: yyyy-MM-dd
-  flyway:
-    enabled: false
-    locations: classpath:db/migration
+    output:
+        ansi:
+            enabled: ALWAYS
+    main:
+        banner-mode: "OFF"
+    data:
+        web:
+            pageable:
+                one-indexed-parameters: true
+                default-page-size: 20
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: ${DATABASE_URL}
+        username: ${PGUSER}
+        password: ${PGPASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        database: postgresql
+        show-sql: true
+    
+    jackson:
+        date-format: yyyy-MM-dd
+    flyway:
+        enabled: true
+        url: ${DATABASE_URL}
+        user: ${PGUSER}
+        password: ${PGPASSWORD}
+        locations: classpath:db/migration
 
 server:
-  port: ${PORT:8080} # 8080
-  error:
-    include-stacktrace: on-param
-    include-message: always
-    include-binding-errors: always
+    port: ${PORT:8080} # 8080
+    error:
+        include-stacktrace: on-param
+        include-message: always
+        include-binding-errors: always
 logging:
-  level:
-    ROOT: INFO # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
-    com:
-      mkdata:
-        company: INFO # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
+    level:
+        ROOT: INFO # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
+        com:
+            mkdata:
+                company: INFO # QA=DEBUG; STAGING=DEBUG; PROD=INFO;
