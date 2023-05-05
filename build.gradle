@@ -1,8 +1,9 @@
 plugins {
 	id 'org.springframework.boot' version "${springBootVersion}"
 	id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
-	id 'org.sonarqube' version '3.4.0.2513'
-    id "org.flywaydb.flyway" version "9.17.0"
+	id 'org.sonarqube' version "${sonarQubeVersion}"
+	id 'org.flywaydb.flyway' version "${flywayVersion}" 
+	id 'com.diffplug.spotless' version "${spotlessVersion}"
 	id 'jacoco'
 	id 'java'
 }
@@ -27,9 +28,6 @@ String dbUrl = envProperties['DB_URL']
 String dbUser = envProperties['DB_USER']
 String dbPass = envProperties['DB_PASSWORD']
 
-
-
-
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -42,30 +40,27 @@ static String getCurrentDateTimeFormatted() {
 import org.flywaydb.gradle.task.FlywayMigrateTask
 
 tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
-    group = 'database'
-    description = 'Generate SQL file using Flyway with timestamp and table name'
+	group = 'database'
+	description = 'Generate SQL file using Flyway with timestamp and table name'
 
-    // Defina a configuração do Flyway aqui (ou reutilize a configuração global do Flyway)
-    url = "${dbUrl}"
-    user = "${dbUser}"
-    password = "${dbPass}"
-    locations = ['filesystem:src/main/resources/db/migration']
+	// Defina a configuração do Flyway aqui (ou reutilize a configuração global do Flyway)
+	url = "${dbUrl}"
+	user = "${dbUser}"
+	password = "${dbPass}"
+	locations = ['filesystem:src/main/resources/db/migration']
 
-    // Crie um parâmetro de entrada para receber o nome da tabela
-    ext.tableName = 'V1__'
+	doLast {
+		if (tableName.trim()) {
+			// Ative a geração do arquivo SQL com data e hora e nome da tabela
+			String timestamp = getCurrentDateTimeFormatted()
+			// Create the SQL file with the table name and timestamp
+			File outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}.sql")
+			outputFile.createNewFile()
 
-    doLast {
-        if (tableName.trim()) {
-            // Ative a geração do arquivo SQL com data e hora e nome da tabela
-            String timestamp = getCurrentDateTimeFormatted()
-            // Create the SQL file with the table name and timestamp
-            File outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}.sql")
-            outputFile.createNewFile()
-
-        } else {
-            println "Please provide a table name using -PtableName=your_table_name"
-        }
-    }
+		} else {
+			println "Please provide a table name using -PtableName=your_table_name"
+		}
+	}
 }
 
 
@@ -100,14 +95,14 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.1
+                minimum = 0.8
             }
         }
         rule {
             enabled = true
             limit {
                 counter = 'BRANCH'
-                minimum = 0.1
+                minimum = 0.8
             }
             excludes = []
         }
@@ -116,7 +111,7 @@ jacocoTestCoverageVerification {
             enabled = true
             limit {
                 counter = 'METHOD'
-                minimum = 0.1
+                minimum = 0.8
             }
             excludes = []
         }
@@ -129,6 +124,20 @@ sonarqube {
 		property "sonar.organization",  "mayconaraujosantos"
 		property "sonar.host.url", "https://sonarcloud.io"
 		property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+	}
+}
+
+spotless {
+	java {
+		target fileTree('.') {
+			include '**/*.java'
+			exclude '**/build/**', '**/build-*/**'
+		}
+		toggleOffOn()
+		palantirJavaFormat()
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		endWithNewline()
 	}
 }
 
