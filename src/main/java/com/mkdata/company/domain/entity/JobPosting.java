@@ -3,13 +3,11 @@ package com.mkdata.company.domain.entity;
 import com.mkdata.company.domain.enums.*;
 import jakarta.persistence.*;
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -26,7 +24,7 @@ public class JobPosting {
 
     @Column(nullable = false)
     private String title;
-    
+
     @Column(nullable = false)
     private String description;
 
