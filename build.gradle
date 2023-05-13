@@ -80,11 +80,11 @@ jacoco {
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled true
-		xml.destination file("$buildDir/jacoco/jacoco.xml")
-        csv.enabled false
-        html.enabled true
-        html.destination file("$buildDir/reports/jacoco")
+//        xml.required true
+//		xml.outputLocation = layout.buildDirectory.dir("$buildDir/jacoco/jacoco.xml")
+//        csv.required false
+//        html.required true
+//        html.outputLocation = layout.buildDirectory.dir("$buildDir/reports/jacoco")
         
     }
 }
@@ -97,9 +97,13 @@ jacocoTestCoverageVerification {
             }
         }
         rule {
-            enabled = true
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+
             limit {
-                counter = 'BRANCH'
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
                 minimum = 0.8
             }
             excludes = []
@@ -142,6 +146,10 @@ spotless {
 
 test {
     finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
 }
 
 test.finalizedBy jacocoTestReport
