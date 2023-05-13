@@ -1,12 +1,29 @@
 package com.mkdata.company.domain.entity;
 
-import com.mkdata.company.domain.enums.*;
-import jakarta.persistence.*;
+import com.mkdata.company.domain.enums.EducationLevel;
+import com.mkdata.company.domain.enums.ExperienceLevel;
+import com.mkdata.company.domain.enums.JobStatus;
+import com.mkdata.company.domain.enums.JobType;
+import com.mkdata.company.domain.enums.SalaryType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -37,6 +54,7 @@ public class JobPosting {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String jobDescription;
 
+    @Column(name = "salary")
     private Double salary;
 
     @Enumerated(EnumType.STRING)
@@ -51,6 +69,7 @@ public class JobPosting {
     private ExperienceLevel experienceLevel;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "education_level")
     private EducationLevel educationLevel;
 
     @Enumerated(EnumType.STRING)
@@ -73,9 +92,10 @@ public class JobPosting {
     @Temporal(TemporalType.DATE)
     private Date applicationDeadline;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 }

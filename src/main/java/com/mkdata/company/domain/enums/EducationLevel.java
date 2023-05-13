@@ -12,9 +12,5 @@ public enum EducationLevel {
     MASTER("Master's Degree"),
     DOCTORATE("Doctorate Degree");
 
-    private final String educationLevel;
-
-    public String getEducationLevel() {
-        return educationLevel;
-    }
+    private final String descriptionLevel;
 }

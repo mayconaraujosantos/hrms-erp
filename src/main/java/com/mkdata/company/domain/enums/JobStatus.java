@@ -14,12 +14,4 @@ public enum JobStatus {
 
     private final String status;
     private final String description;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

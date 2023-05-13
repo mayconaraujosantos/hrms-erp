@@ -14,12 +14,4 @@ public enum JobType {
 
     private final String type;
     private final String description;
-
-    public String getType() {
-        return type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }
