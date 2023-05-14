@@ -1,9 +1,10 @@
 plugins {
 	id 'org.springframework.boot' version "${springBootVersion}"
 	id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
-	id 'org.sonarqube' version '3.4.0.2513'
+	id 'org.sonarqube' version "${sonarQubeVersion}"
+	id 'org.flywaydb.flyway' version "${flywayVersion}" 
+	id 'com.diffplug.spotless' version "${spotlessVersion}"
 	id 'jacoco'
-    id 'checkstyle'
 	id 'java'
 }
 
@@ -21,23 +22,69 @@ configurations {
 	}
 }
 
+def dbUrl = System.getenv('DATABASE_URL')
+def dbUser = System.getenv('PGUSER')
+def dbPass = System.getenv('PGPASSWORD')
+
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+static String getCurrentDateTimeFormatted() {
+    LocalDateTime now = LocalDateTime.now()
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+    return now.format(formatter)
+}
+
+import org.flywaydb.gradle.task.FlywayMigrateTask
+
+tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
+	group = 'database'
+	description = 'Generate SQL file using Flyway with timestamp and table name'
+
+	// Defina a configuração do Flyway aqui (ou reutilize a configuração global do Flyway)
+	url = "${dbUrl}"
+	user = "${dbUser}"
+	password = "${dbPass}"
+	locations = ['filesystem:src/main/resources/db/migration']
+
+	doLast {
+		if (tableName.trim()) {
+			// Ative a geração do arquivo SQL com data e hora e nome da tabela
+			String timestamp = getCurrentDateTimeFormatted()
+			// Create the SQL file with the table name and timestamp
+			File outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}.sql")
+			outputFile.createNewFile()
+
+		} else {
+			println "Please provide a table name using -PtableName=your_table_name"
+		}
+	}
+}
+
+
+flyway {
+    url = "${dbUrl}"
+    user = "${dbUser}"
+    password = "${dbPass}"
+    locations = ['filesystem:src/main/resources/db/migration']
+}
+
 repositories {
 	mavenCentral()
 }
 
 jacoco {
 	toolVersion = "0.8.9"
-    getReportsDir()
 }
 
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled true
-		xml.destination file("$buildDir/jacoco/jacoco.xml")
-        csv.enabled false
-        html.enabled true
-        html.destination file("$buildDir/reports/jacoco")
+//        xml.required true
+//		xml.outputLocation = layout.buildDirectory.dir("$buildDir/jacoco/jacoco.xml")
+//        csv.required false
+//        html.required true
+//        html.outputLocation = layout.buildDirectory.dir("$buildDir/reports/jacoco")
         
     }
 }
@@ -46,14 +93,18 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.1
+                minimum = 0.8
             }
         }
         rule {
-            enabled = true
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+
             limit {
-                counter = 'BRANCH'
-                minimum = 0.1
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                minimum = 0.8
             }
             excludes = []
         }
@@ -62,7 +113,7 @@ jacocoTestCoverageVerification {
             enabled = true
             limit {
                 counter = 'METHOD'
-                minimum = 0.1
+                minimum = 0.8
             }
             excludes = []
         }
@@ -78,28 +129,27 @@ sonarqube {
 	}
 }
 
-checkstyle {
-    toolVersion = '8.12'
-    configFile = file("${rootDir}/config/checkstyle.xml")
-}
-
-checkstyleMain {
-    source = 'src/main/java'
-}
-
-checkstyleTest {
-    source = 'src/test/java'
-}
-
-tasks.withType(Checkstyle) {
-    reports {
-        xml.enabled false 
-        html.enabled true
-    }
+spotless {
+	java {
+		target fileTree('.') {
+			include '**/*.java'
+			exclude '**/build/**', '**/build-*/**'
+		}
+        googleJavaFormat('1.17.0')
+		toggleOffOn()
+		palantirJavaFormat()
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
 }
 
 test {
     finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
 }
 
 test.finalizedBy jacocoTestReport
