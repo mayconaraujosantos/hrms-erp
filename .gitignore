@@ -36,5 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 .env
-**/.DS_Store
-generated/
+.DS_Store
