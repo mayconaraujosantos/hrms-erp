@@ -1,11 +1,5 @@
 FROM amazoncorretto:17-alpine-jdk AS build
 
-ARG PGHOST
-ARG PGPORT
-ARG PGUSER
-ARG PGPASSWORD
-ARG PGDATABASE
-
 # Install Gradle
 RUN apk add --no-cache gradle
 
