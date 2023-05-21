@@ -24,6 +24,7 @@ spring:
     flyway:
         clean-on-validation-error: true
         enabled: true
+        clean-disabled: false
         url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
         user: ${PGUSER}
         password: ${PGPASSWORD}
