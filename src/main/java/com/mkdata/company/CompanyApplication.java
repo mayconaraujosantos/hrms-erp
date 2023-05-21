@@ -10,7 +10,6 @@ public class CompanyApplication {
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(CompanyApplication.class);
-        // application.setAdditionalProfiles("prod");
         application.run(args);
     }
 }
