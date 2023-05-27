@@ -1,0 +1,37 @@
+def lombokVersion = '1.18.24'
+def flywaydbVersion = '9.8.1'
+def postgreSQLVersion = '42.6.0'
+def postgresTestContainersVersion = '1.18.0'
+def testContainersVersion = '1.18.0'
+def junitVersion = '4.13.2'
+def springOpenApiDoc = '2.1.0'
+def assertjVersion = '3.22.0'
+def mapStructVersion = '1.5.3.Final'
+
+dependencies {
+	developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springOpenApiDoc}"
+	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+	implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+	implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+	implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
+	implementation "org.postgresql:postgresql:${postgreSQLVersion}"
+	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+	implementation("com.diffplug.spotless:spotless-lib:${spotlessLibVersion}")
+	implementation("com.diffplug.spotless:spotless-plugin-gradle:${spotlessVersion}")
+
+    compileOnly 'org.projectlombok:lombok'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+	testImplementation "junit:junit:${junitVersion}"
+	testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+	testImplementation "org.testcontainers:postgresql:${postgresTestContainersVersion}"
+	testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+	testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testImplementation 'com.h2database:h2:2.1.214'
+
+}
