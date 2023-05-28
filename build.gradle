@@ -8,31 +8,34 @@ plugins {
     id 'java'
 }
 
-//group = 'com.mkdata.hrms'
-//version = '0.0.1-SNAPSHOT'
-
-description   = description
-group         = group
-version       = version
+description = description
+group = group
+version = version
 
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.flywaydb:flyway-core'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springbootframework.boot'
+    
+    repositories {
+        mavenCentral()
+    }
+    
 }
+apply from: 'dependencies.gradle'
+
 
 def dbUrl = System.getenv('DATABASE_URL')
 def dbUser = System.getenv('PGUSER')
 def dbPass = System.getenv('PGPASSWORD')
 
-import groovy.io.FileType
+
+import org.flywaydb.gradle.task.FlywayMigrateTask
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -42,8 +45,6 @@ static String getCurrentDateTimeFormatted() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
     return now.format(formatter)
 }
-
-import org.flywaydb.gradle.task.FlywayMigrateTask
 
 tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
     group = 'database'
@@ -63,10 +64,10 @@ tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
             File outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}.sql")
 
             // Adicione um sufixo de incremento se o arquivo já existir
-            int suffix = 1;
+            int suffix = 1
             while (outputFile.exists()) {
                 outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}_${suffix}.sql")
-                suffix++;
+                suffix++
             }
             outputFile.createNewFile()
 
@@ -91,12 +92,11 @@ jacoco {
 jacocoTestReport {
     dependsOn test
     reports {
-//        xml.required true
-//		xml.outputLocation = layout.buildDirectory.dir("$buildDir/jacoco/jacoco.xml")
-//        csv.required false
-//        html.required true
-//        html.outputLocation = layout.buildDirectory.dir("$buildDir/reports/jacoco")
-
+        xml.enabled true
+        xml.outputLocation.set(layout.buildDirectory.file("jacoco/jacoco.xml"))
+        csv.enabled false
+        html.enabled true
+        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
     }
 }
 
@@ -133,8 +133,8 @@ jacocoTestCoverageVerification {
 
 sonarqube {
     properties {
-        property "sonar.projectKey",  "mayconaraujosantos_mkdata-company"
-        property "sonar.organization",  "mayconaraujosantos"
+        property "sonar.projectKey", "mayconaraujosantos_mkdata-company"
+        property "sonar.organization", "mayconaraujosantos"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
     }
