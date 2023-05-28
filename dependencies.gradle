@@ -1,11 +1,11 @@
 def lombokVersion = '1.18.24'
-def flywaydbVersion = '9.8.1'
+def flywaydbVersion = '9.17.0'
 def postgreSQLVersion = '42.6.0'
 def postgresTestContainersVersion = '1.18.0'
 def testContainersVersion = '1.18.0'
 def junitVersion = '4.13.2'
 def springOpenApiDoc = '2.1.0'
-def assertjVersion = '3.22.0'
+def assertjVersion = '3.24.2'
 def mapStructVersion = '1.5.3.Final'
 
 dependencies {
