@@ -6,8 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class HrmsErpApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+        String[] args = {};
+        Runnable runnable = () -> HrmsErpApplication.main(args);
+    }
 }
