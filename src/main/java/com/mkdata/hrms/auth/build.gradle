@@ -1,13 +1,11 @@
-package com.mkdata.hrms.auth
-
 plugins {
     id 'java'
-  }
+}
 
-  dependencies {
-    
-  }
+dependencies {
 
-  test {
+}
+
+test {
     useJUnitPlatform()
-  }
+}
