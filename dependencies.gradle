@@ -1,5 +1,5 @@
 def lombokVersion = '1.18.24'
-def flywaydbVersion = '9.8.1'
+def flywayLibVersion='9.17.0'
 def postgreSQLVersion = '42.6.0'
 def postgresTestContainersVersion = '1.18.0'
 def testContainersVersion = '1.18.0'
@@ -14,11 +14,12 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-	implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
+	implementation "org.flywaydb:flyway-core:${flywayLibVersion}"
 	implementation "org.postgresql:postgresql:${postgreSQLVersion}"
 	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 	implementation("com.diffplug.spotless:spotless-lib:${spotlessLibVersion}")
 	implementation("com.diffplug.spotless:spotless-plugin-gradle:${spotlessVersion}")
+    implementation 'org.springframework:spring-context:6.0.9'
 
     compileOnly 'org.projectlombok:lombok'
 

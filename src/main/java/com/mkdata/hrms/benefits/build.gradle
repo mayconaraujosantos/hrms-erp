@@ -1,0 +1,13 @@
+package com.mkdata.hrms.benefits
+
+plugins {
+    id 'java'
+  }
+
+  dependencies {
+    implementation project(':benefits')
+  }
+
+  test {
+    useJUnitPlatform()
+  }

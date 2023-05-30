@@ -1,0 +1,13 @@
+package com.mkdata.hrms.recruitment
+
+plugins {
+    id 'java'
+  }
+
+  dependencies {
+    implementation project(':recruitment')
+  }
+
+  test {
+    useJUnitPlatform()
+  }

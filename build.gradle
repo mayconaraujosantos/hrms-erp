@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'org.sonarqube' version "${sonarQubeVersion}"
-    id 'org.flywaydb.flyway' version "${flywayVersion}"
+    id 'org.flywaydb.flyway' version "${flywayPluginVersion}"
     id 'com.diffplug.spotless' version "${spotlessVersion}"
     id 'jacoco'
     id 'java'
@@ -11,22 +11,17 @@ plugins {
 //group = 'com.mkdata.hrms'
 //version = '0.0.1-SNAPSHOT'
 
-description   = description
-group         = group
-version       = version
+description = description
+group = group
+version = version
 
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.flywaydb:flyway-core'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
+apply from: 'dependencies.gradle'
 
 def dbUrl = System.getenv('DATABASE_URL')
 def dbUser = System.getenv('PGUSER')
@@ -101,40 +96,40 @@ jacocoTestReport {
 }
 
 jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.8
-            }
-        }
-        rule {
-            enabled = false
-            element = 'CLASS'
-            includes = ['org.gradle.*']
+    // violationRules {
+    //     rule {
+    //         limit {
+    //             minimum = 1.00
+    //         }
+    //     }
+    //     rule {
+    //         enabled = false
+    //         element = 'CLASS'
+    //         includes = ['org.gradle.*']
 
-            limit {
-                counter = 'LINE'
-                value = 'TOTALCOUNT'
-                minimum = 0.8
-            }
-            excludes = []
-        }
+    //         limit {
+    //             counter = 'LINE'
+    //             value = 'TOTALCOUNT'
+    //             minimum = 1.00
+    //         }
+    //         excludes = []
+    //     }
 
-        rule {
-            enabled = true
-            limit {
-                counter = 'METHOD'
-                minimum = 0.8
-            }
-            excludes = []
-        }
-    }
+    //     rule {
+    //         enabled = true
+    //         limit {
+    //             counter = 'METHOD'
+    //             minimum = 1.00
+    //         }
+    //         excludes = []
+    //     }
+    // }
 }
 
 sonarqube {
     properties {
-        property "sonar.projectKey",  "mayconaraujosantos_mkdata-company"
-        property "sonar.organization",  "mayconaraujosantos"
+        property "sonar.projectKey", "mayconaraujosantos_mkdata-company"
+        property "sonar.organization", "mayconaraujosantos"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
     }

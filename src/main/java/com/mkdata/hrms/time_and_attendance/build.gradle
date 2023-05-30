@@ -1,0 +1,13 @@
+package com.mkdata.hrms.time_and_attendance
+
+plugins {
+    id 'java'
+  }
+
+  dependencies {
+    implementation project(':time_and_attendance')
+  }
+
+  test {
+    useJUnitPlatform()
+  }

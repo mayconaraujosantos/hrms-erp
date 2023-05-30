@@ -1,0 +1,13 @@
+package com.mkdata.hrms.payroll
+
+plugins {
+    id 'java'
+  }
+
+  dependencies {
+    implementation project(':payroll')
+  }
+
+  test {
+    useJUnitPlatform()
+  }

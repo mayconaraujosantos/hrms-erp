@@ -1,0 +1,13 @@
+package com.mkdata.hrms.training
+
+plugins {
+    id 'java'
+  }
+
+  dependencies {
+    implementation project(':training')
+  }
+
+  test {
+    useJUnitPlatform()
+  }

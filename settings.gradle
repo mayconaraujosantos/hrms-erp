@@ -1,1 +1,8 @@
 rootProject.name = 'hrms-erp'
+
+include 'auth'
+include 'benefits'
+include 'payroll'
+include 'recruitment'
+include 'timeandattendance'
+include 'training'
