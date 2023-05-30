@@ -5,7 +5,7 @@ plugins {
   }
 
   dependencies {
-    implementation project(':time_and_attendance')
+ 
   }
 
   test {
