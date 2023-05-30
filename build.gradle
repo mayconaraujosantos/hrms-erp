@@ -8,8 +8,6 @@ plugins {
     id 'java'
 }
 
-//group = 'com.mkdata.hrms'
-//version = '0.0.1-SNAPSHOT'
 
 description = description
 group = group
