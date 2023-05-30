@@ -1,1 +1,11 @@
-package com.mkdata.hrms.recruitment
+plugins {
+    id 'java'
+}
+
+dependencies {
+
+}
+
+test {
+    useJUnitPlatform()
+}

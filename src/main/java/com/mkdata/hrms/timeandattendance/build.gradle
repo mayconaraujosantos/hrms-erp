@@ -1,1 +1,11 @@
-package com.mkdata.hrms.timeandattendance
+plugins {
+    id 'java'
+}
+
+dependencies {
+
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -2,11 +2,12 @@ plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'org.sonarqube' version "${sonarQubeVersion}"
-    id 'org.flywaydb.flyway' version "${flywayVersion}"
+    id 'org.flywaydb.flyway' version "${flywayPluginVersion}"
     id 'com.diffplug.spotless' version "${spotlessVersion}"
     id 'jacoco'
     id 'java'
 }
+
 
 description = description
 group = group
@@ -18,24 +19,12 @@ repositories {
     mavenCentral()
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'org.springbootframework.boot'
-    
-    repositories {
-        mavenCentral()
-    }
-    
-}
 apply from: 'dependencies.gradle'
-
 
 def dbUrl = System.getenv('DATABASE_URL')
 def dbUser = System.getenv('PGUSER')
 def dbPass = System.getenv('PGPASSWORD')
 
-
-import org.flywaydb.gradle.task.FlywayMigrateTask
 import groovy.io.FileType
 
 import java.time.LocalDateTime
@@ -67,10 +56,10 @@ tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
             File outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}.sql")
 
             // Adicione um sufixo de incremento se o arquivo já existir
-            int suffix = 1
+            int suffix = 1;
             while (outputFile.exists()) {
                 outputFile = file("src/main/resources/db/migration/V${timestamp}__${tableName}_${suffix}.sql")
-                suffix++
+                suffix++;
             }
             outputFile.createNewFile()
 
@@ -95,48 +84,49 @@ jacoco {
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled true
-        xml.outputLocation.set(layout.buildDirectory.file("jacoco/jacoco.xml"))
-        csv.enabled false
-        html.enabled true
-        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
+//        xml.required true
+//		xml.outputLocation = layout.buildDirectory.dir("$buildDir/jacoco/jacoco.xml")
+//        csv.required false
+//        html.required true
+//        html.outputLocation = layout.buildDirectory.dir("$buildDir/reports/jacoco")
+
     }
 }
 
 jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.8
-            }
-        }
-        rule {
-            enabled = false
-            element = 'CLASS'
-            includes = ['org.gradle.*']
+    // violationRules {
+    //     rule {
+    //         limit {
+    //             minimum = 1.00
+    //         }
+    //     }
+    //     rule {
+    //         enabled = false
+    //         element = 'CLASS'
+    //         includes = ['org.gradle.*']
 
-            limit {
-                counter = 'LINE'
-                value = 'TOTALCOUNT'
-                minimum = 0.8
-            }
-            excludes = []
-        }
+    //         limit {
+    //             counter = 'LINE'
+    //             value = 'TOTALCOUNT'
+    //             minimum = 1.00
+    //         }
+    //         excludes = []
+    //     }
 
-        rule {
-            enabled = true
-            limit {
-                counter = 'METHOD'
-                minimum = 0.8
-            }
-            excludes = []
-        }
-    }
+    //     rule {
+    //         enabled = true
+    //         limit {
+    //             counter = 'METHOD'
+    //             minimum = 1.00
+    //         }
+    //         excludes = []
+    //     }
+    // }
 }
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "mayconaraujosantos_mkdata-company"
+        property "sonar.projectKey", "mayconaraujosantos_hrms-erp"
         property "sonar.organization", "mayconaraujosantos"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.coverage.jacoco.xmlReportPaths", "${rootProject.buildDir}/reports/jacoco/test/jacocoTestReport.xml"

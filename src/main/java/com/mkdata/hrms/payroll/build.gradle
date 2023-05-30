@@ -1,1 +1,11 @@
-package com.mkdata.hrms.payroll
+plugins {
+    id 'java'
+}
+
+dependencies {
+
+}
+
+test {
+    useJUnitPlatform()
+}
