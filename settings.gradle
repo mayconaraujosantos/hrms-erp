@@ -1,19 +1,8 @@
 rootProject.name = 'hrms-erp'
 
-include 'auth'
-project(':auth').projectDir = new File('src/main/java/com/mkdata/hrms/auth')
-
-include 'benefits'
-project(':benefits').projectDir = new File('src/main/java/com/mkdata/hrms/benefits')
-
-include 'payroll'
-project(':payroll').projectDir = new File('src/main/java/com/mkdata/hrms/payroll')
-
-include 'recruitment'
-project(':recruitment').projectDir = new File('src/main/java/com/mkdata/hrms/recruitment')
-
-include 'timeandattendance'
-project(':timeandattendance').projectDir = new File('src/main/java/com/mkdata/hrms/timeandattendance')
-
-include 'training'
-project(':training').projectDir = new File('src/main/java/com/mkdata/hrms/training')
+include 'modules:auth'
+include 'modules:benefits'
+include 'modules:payroll'
+include 'modules:recruitment'
+include 'modules:timeandattendance'
+include 'modules:training'

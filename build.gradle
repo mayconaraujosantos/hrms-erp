@@ -15,11 +15,98 @@ version = version
 
 sourceCompatibility = '17'
 
+
 repositories {
     mavenCentral()
 }
 
-apply from: 'dependencies.gradle'
+ext {
+    lombokVersion = '1.18.24'
+    flywayLibVersion = '9.17.0'
+    postgreSQLVersion = '42.6.0'
+    postgresTestContainersVersion = '1.18.0'
+    testContainersVersion = '1.18.0'
+    junitVersion = '4.13.2'
+    springOpenApiDoc = '2.1.0'
+    assertjVersion = '3.22.0'
+    mapStructVersion = '1.5.3.Final'
+}
+dependencies {
+    implementation project('modules:auth')
+    implementation project('modules:benefits')
+    implementation project('modules:payroll')
+    implementation project('modules:recruitment')
+    implementation project('modules:timeandattendance')
+    implementation project('modules:training')
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springOpenApiDoc}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.flywaydb:flyway-core:${flywayLibVersion}"
+    implementation "org.postgresql:postgresql:${postgreSQLVersion}"
+    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+    implementation("com.diffplug.spotless:spotless-lib:${spotlessLibVersion}")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:${spotlessVersion}")
+    implementation 'org.springframework:spring-context:6.0.9'
+
+    compileOnly 'org.projectlombok:lombok'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+    testImplementation "junit:junit:${junitVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${postgresTestContainersVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testImplementation 'com.h2database:h2:2.1.214'
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    
+    repositories {
+        mavenCentral()
+    }
+    
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
+    
+    dependencies {
+        implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springOpenApiDoc}"
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+        implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+        implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+        implementation "org.flywaydb:flyway-core:${flywayLibVersion}"
+        implementation "org.postgresql:postgresql:${postgreSQLVersion}"
+        implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+
+        compileOnly 'org.projectlombok:lombok'
+
+        runtimeOnly 'org.postgresql:postgresql'
+
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+        
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+}
 
 def dbUrl = System.getenv('DATABASE_URL')
 def dbUser = System.getenv('PGUSER')
@@ -69,7 +156,6 @@ tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
     }
 }
 
-
 flyway {
     url = "${dbUrl}"
     user = "${dbUser}"
@@ -84,44 +170,16 @@ jacoco {
 jacocoTestReport {
     dependsOn test
     reports {
-//        xml.required true
-//		xml.outputLocation = layout.buildDirectory.dir("$buildDir/jacoco/jacoco.xml")
-//        csv.required false
-//        html.required true
-//        html.outputLocation = layout.buildDirectory.dir("$buildDir/reports/jacoco")
-
+        xml.enabled true
+		xml.outputLocation.set(layout.buildDirectory.file("$buildDir/jacoco/jacoco.xml"))
+        csv.enabled false
+        html.enabled true
+        html.outputLocation.set(layout.buildDirectory.dir("$buildDir/reports/jacoco"))
     }
 }
 
 jacocoTestCoverageVerification {
-    // violationRules {
-    //     rule {
-    //         limit {
-    //             minimum = 1.00
-    //         }
-    //     }
-    //     rule {
-    //         enabled = false
-    //         element = 'CLASS'
-    //         includes = ['org.gradle.*']
-
-    //         limit {
-    //             counter = 'LINE'
-    //             value = 'TOTALCOUNT'
-    //             minimum = 1.00
-    //         }
-    //         excludes = []
-    //     }
-
-    //     rule {
-    //         enabled = true
-    //         limit {
-    //             counter = 'METHOD'
-    //             minimum = 1.00
-    //         }
-    //         excludes = []
-    //     }
-    // }
+   
 }
 
 sonarqube {
