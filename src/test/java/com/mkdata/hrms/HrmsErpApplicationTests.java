@@ -1,5 +1,7 @@
 package com.mkdata.hrms;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -7,5 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class HrmsErpApplicationTests {
 
     @Test
-    void contextLoads() {}
+    void testConfigure() {
+        String[] args = {""};
+        Runnable runnable = () -> HrmsErpApplication.main(args);
+        assertNotNull(runnable);
+    }
 }

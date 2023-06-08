@@ -4,28 +4,31 @@ O projeto HRMS-ERP é um sistema de gerenciamento de recursos humanos e planejam
 
 ## 📚 Índice
 
-- [Módulos](#-módulos)
+- [Features](#-features)
 - [Como contribuir](#-como-contribuir)
 - [Licença](#-licença)
 
-## 🛠️ Módulos
+## 🛠️ Features
 
-### 🔍 Módulo de Recrutamento
-Este módulo é responsável pelo gerenciamento do processo de recrutamento.
+### 🛡️ Feature de Autenticação e Autorização (Segurança)
+Esta feature é responsável por garantir a segurança do sistema através da autenticação e autorização dos usuários. Ela usa JSON Web Tokens (JWT) para autenticação e autorização, permitindo que os usuários se autentiquem e, em seguida, concedendo-lhes permissões com base em seus papéis.
 
-### 💰 Módulo de Folha de Pagamento
+### 🔍 Feature de Recrutamento
+Esta feature é responsável pelo gerenciamento do processo de recrutamento.
+
+### 💰 Feature de Folha de Pagamento
 Lida com todos os aspectos da folha de pagamento.
 
-### 📈 Módulo de Gerenciamento de Desempenho
+### 📈 Feature de Gerenciamento de Desempenho
 Permite a avaliação do desempenho dos funcionários.
 
-### 🎁 Módulo de Benefícios e Compensações
+### 🎁 Feature de Benefícios e Compensações
 Gerencia os benefícios e compensações dos funcionários.
 
-### 🎓 Módulo de Treinamento e Desenvolvimento
+### 🎓 Feature de Treinamento e Desenvolvimento
 Organiza treinamentos e desenvolvimento para os funcionários.
 
-### ⏲️ Módulo de Gerenciamento de Tempo e Assistência
+### ⏲️ Feature de Gerenciamento de Tempo e Assistência
 Ajuda a rastrear e gerenciar a presença e o tempo dos funcionários.
 
 ## 🤝 Como contribuir

@@ -1,8 +1,1 @@
 rootProject.name = 'hrms-erp'
-
-include 'modules:auth'
-include 'modules:benefits'
-include 'modules:payroll'
-include 'modules:recruitment'
-include 'modules:timeandattendance'
-include 'modules:training'
