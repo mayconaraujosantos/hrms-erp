@@ -15,6 +15,7 @@ version = version
 
 sourceCompatibility = '17'
 
+
 repositories {
     mavenCentral()
 }
@@ -69,7 +70,6 @@ tasks.register('generateSqlWithTimestampAndTable', FlywayMigrateTask) {
     }
 }
 
-
 flyway {
     url = "${dbUrl}"
     user = "${dbUser}"
@@ -84,44 +84,16 @@ jacoco {
 jacocoTestReport {
     dependsOn test
     reports {
-//        xml.required true
-//		xml.outputLocation = layout.buildDirectory.dir("$buildDir/jacoco/jacoco.xml")
-//        csv.required false
-//        html.required true
-//        html.outputLocation = layout.buildDirectory.dir("$buildDir/reports/jacoco")
-
+        xml.enabled true
+		xml.outputLocation.set(layout.buildDirectory.file("$buildDir/jacoco/jacoco.xml"))
+        csv.enabled false
+        html.enabled true
+        html.outputLocation.set(layout.buildDirectory.dir("$buildDir/reports/jacoco"))
     }
 }
 
 jacocoTestCoverageVerification {
-    // violationRules {
-    //     rule {
-    //         limit {
-    //             minimum = 1.00
-    //         }
-    //     }
-    //     rule {
-    //         enabled = false
-    //         element = 'CLASS'
-    //         includes = ['org.gradle.*']
-
-    //         limit {
-    //             counter = 'LINE'
-    //             value = 'TOTALCOUNT'
-    //             minimum = 1.00
-    //         }
-    //         excludes = []
-    //     }
-
-    //     rule {
-    //         enabled = true
-    //         limit {
-    //             counter = 'METHOD'
-    //             minimum = 1.00
-    //         }
-    //         excludes = []
-    //     }
-    // }
+   
 }
 
 sonarqube {
