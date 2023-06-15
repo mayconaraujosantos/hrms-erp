@@ -16,7 +16,7 @@ spring:
         password: ${PGPASSWORD}
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: create
         database: postgresql
         database-platform: 
         show-sql: true
@@ -55,3 +55,7 @@ logging:
         com:
             mkdata:
                 company: INFO
+mkdata:
+  app:
+    jwtSecret: "======================Mkdata=Spring==========================="
+    jwtExpirationMs: 86400000
