@@ -1,5 +1,9 @@
 package com.mkdata.hrms.auth.security;
 
+import com.mkdata.hrms.auth.security.jwt.AuthEntryPointJwt;
+import com.mkdata.hrms.auth.security.jwt.AuthTokenFilter;
+import com.mkdata.hrms.auth.security.services.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,21 +17,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.mkdata.hrms.auth.security.jwt.AuthEntryPointJwt;
-import com.mkdata.hrms.auth.security.jwt.AuthTokenFilter;
-import com.mkdata.hrms.auth.security.services.UserDetailsServiceImpl;
-
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
+    @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
-
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
-        this.userDetailsService = userDetailsService;
-        this.unauthorizedHandler = unauthorizedHandler;
-    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -62,6 +59,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**")
                         .permitAll()
                         .requestMatchers("/api/v1/test/**")
+                        .permitAll()
+                        .requestMatchers(AUTH_WHITELIST)
                         .permitAll()
                         .anyRequest()
                         .authenticated());

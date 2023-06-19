@@ -1,10 +1,21 @@
 package com.mkdata.hrms.auth.controllers;
 
+import com.mkdata.hrms.auth.models.ERole;
+import com.mkdata.hrms.auth.models.Role;
+import com.mkdata.hrms.auth.models.User;
+import com.mkdata.hrms.auth.payload.request.LoginRequest;
+import com.mkdata.hrms.auth.payload.request.SignupRequest;
+import com.mkdata.hrms.auth.payload.response.JwtResponse;
+import com.mkdata.hrms.auth.payload.response.MessageResponse;
+import com.mkdata.hrms.auth.repository.RoleRepository;
+import com.mkdata.hrms.auth.repository.UserRepository;
+import com.mkdata.hrms.auth.security.jwt.JwtUtils;
+import com.mkdata.hrms.auth.security.services.UserDetailsImpl;
+import jakarta.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,20 +29,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.mkdata.hrms.auth.models.ERole;
-import com.mkdata.hrms.auth.models.Role;
-import com.mkdata.hrms.auth.models.User;
-import com.mkdata.hrms.auth.payload.request.LoginRequest;
-import com.mkdata.hrms.auth.payload.request.SignupRequest;
-import com.mkdata.hrms.auth.payload.response.JwtResponse;
-import com.mkdata.hrms.auth.payload.response.MessageResponse;
-import com.mkdata.hrms.auth.repository.RoleRepository;
-import com.mkdata.hrms.auth.repository.UserRepository;
-import com.mkdata.hrms.auth.security.jwt.JwtUtils;
-import com.mkdata.hrms.auth.security.services.UserDetailsImpl;
-
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
