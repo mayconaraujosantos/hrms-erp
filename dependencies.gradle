@@ -14,7 +14,9 @@ def h2DBVersion = '2.1.214'
 
 dependencies {
 	developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springOpenApiDoc}"
+	implementation 'org.springdoc:springdoc-openapi-security:1.7.0'
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"

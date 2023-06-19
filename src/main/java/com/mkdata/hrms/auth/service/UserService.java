@@ -9,7 +9,6 @@ import com.mkdata.hrms.auth.repository.RoleRepository;
 import com.mkdata.hrms.auth.repository.UserRepository;
 import java.util.HashSet;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,14 +19,13 @@ public class UserService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity<?> registerUser(SignupRequest signupRequest) {
+    public ResponseEntity<MessageResponse> registerUser(SignupRequest signupRequest) {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
