@@ -18,19 +18,19 @@ spring:
         hibernate:
             ddl-auto: update
         database: postgresql
-        database-platform: 
+        database-platform:
         show-sql: true
     jackson:
         date-format: yyyy-MM-dd
     flyway:
-        # clean-on-validation-error: true
+        clean-on-validation-error: true
         enabled: true
         url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
         user: ${PGUSER}
         password: ${PGPASSWORD}
         locations: "classpath:db/migration"
-        # schemas: public
-        # baseline-on-migrate: true
+        schemas: public
+        baseline-on-migrate: true
     h2:
         console:
             enabled: true
@@ -44,7 +44,7 @@ server:
         include-stacktrace: on-param
         include-message: always
         include-binding-errors: always
-    
+
 logging:
     level:
         ROOT: INFO
@@ -54,6 +54,6 @@ logging:
             mkdata:
                 company: INFO
 mkdata:
-  app:
-    jwtSecret: "======================Mkdata=Spring==========================="
-    jwtExpirationMs: 86400000
+    app:
+        jwtSecret: "======================Mkdata=Spring==========================="
+        jwtExpirationMs: 86400000
