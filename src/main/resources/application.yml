@@ -23,14 +23,10 @@ spring:
     jackson:
         date-format: yyyy-MM-dd
     flyway:
-        clean-on-validation-error: true
-        enabled: true
         url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
         user: ${PGUSER}
         password: ${PGPASSWORD}
         locations: "classpath:db/migration"
-        schemas: public
-        baseline-on-migrate: true
     h2:
         console:
             enabled: true
