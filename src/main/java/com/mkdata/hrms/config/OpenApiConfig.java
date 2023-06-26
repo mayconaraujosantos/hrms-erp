@@ -15,15 +15,18 @@ import org.springframework.context.annotation.Configuration;
         info =
                 @Info(
                         contact =
-                                @Contact(name = "Contact", email = "contact@contato.com", url = "https://example.com"),
+                                @Contact(
+                                        name = "Contact",
+                                        email = "maycon.araujo.santos@gmail.com",
+                                        url = "https://hrms-erp-production.up.railway.app"),
                         description = "OpenApi documentation for Spring Security",
-                        title = "OpenApi specification - Alibou",
+                        title = "OpenApi specification",
                         version = "1.0",
                         license = @License(name = "Licence name", url = "https://some-url.com"),
                         termsOfService = "Terms of service"),
         servers = {
             @Server(description = "Local ENV", url = "http://localhost:8080"),
-            @Server(description = "PROD ENV", url = "https://dev.io")
+            @Server(description = "PROD ENV", url = "https://hrms-erp-production.up.railway.app")
         },
         security = {@SecurityRequirement(name = "bearerAuth")})
 @SecurityScheme(
