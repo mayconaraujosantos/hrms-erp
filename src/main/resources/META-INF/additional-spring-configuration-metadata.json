@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "mkdata.app.jwt-secret",
+    "type": "java.lang.String",
+    "description": "A description for 'mkdata.app.jwt-secret'"
+  },
+  {
+    "name": "mkdata.app.jwt-expiration-ms",
+    "type": "java.lang.String",
+    "description": "A description for 'mkdata.app.jwt-expiration-ms'"
+  },
+  {
+    "name": "sentry.logging.minimum-event-level",
+    "type": "java.lang.String",
+    "description": "A description for 'sentry.logging.minimum-event-level'"
+  },
+  {
+    "name": "sentry.logging.minimum-breadcrumb-level",
+    "type": "java.lang.String",
+    "description": "A description for 'sentry.logging.minimum-breadcrumb-level'"
+  }
+]}

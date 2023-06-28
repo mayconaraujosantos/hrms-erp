@@ -1,16 +1,20 @@
 def lombokVersion = '1.18.24'
 def flywayLibVersion='9.17.0'
 def postgreSQLVersion = '42.6.0'
-def postgresTestContainersVersion = '1.18.0'
-def testContainersVersion = '1.18.0'
 def junitVersion = '4.13.2'
 def springOpenApiDoc = '2.1.0'
 def assertjVersion = '3.22.0'
+def springSecurity = '3.1.0'
+def springBootSecurityVersion = '6.1.0'
 def mapStructVersion = '1.5.3.Final'
+def jsonwebtokenVersion  = '0.11.5'
+def h2DBVersion = '2.1.214'
 
 dependencies {
 	developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
-	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springOpenApiDoc}"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'  
+    implementation "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springOpenApiDoc}"
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
@@ -19,6 +23,11 @@ dependencies {
 	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 	implementation "com.diffplug.spotless:spotless-lib:${spotlessLibVersion}"
 	implementation "com.diffplug.spotless:spotless-plugin-gradle:${spotlessVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-security:${springSecurity}"
+	implementation "io.jsonwebtoken:jjwt-api:${jsonwebtokenVersion}"
+
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jsonwebtokenVersion}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jsonwebtokenVersion}"
 
     compileOnly 'org.projectlombok:lombok'
 
@@ -28,10 +37,9 @@ dependencies {
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
 	testImplementation "junit:junit:${junitVersion}"
-	testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
-	testImplementation "org.testcontainers:postgresql:${postgresTestContainersVersion}"
 	testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 	testImplementation "org.assertj:assertj-core:${assertjVersion}"
-    testImplementation 'com.h2database:h2:2.1.214'
+	testImplementation "org.springframework.security:spring-security-test:${springBootSecurityVersion}"
+    testImplementation "com.h2database:h2:${h2DBVersion}"
 
 }

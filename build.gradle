@@ -83,17 +83,39 @@ jacoco {
 
 jacocoTestReport {
     dependsOn test
+    
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                "com.mkdata.hrms.auth.infra.security.jwt/**",
+                "com.mkdata.hrms.auth.domain.dto/**",
+                "com.mkdata.hrms.auth.domain.exception/**",
+            ])
+        }))
+    }
+    
     reports {
-        xml.enabled true
-		xml.outputLocation.set(layout.buildDirectory.file("$buildDir/jacoco/jacoco.xml"))
-        csv.enabled false
-        html.enabled true
-        html.outputLocation.set(layout.buildDirectory.dir("$buildDir/reports/jacoco"))
+        xml {
+            enabled true
+            xml.outputLocation.set(layout.buildDirectory.file("$buildDir/jacoco/jacoco.xml"))
+        }
+
+        html {
+            enabled true
+            html.outputLocation.set(layout.buildDirectory.dir("$buildDir/reports/jacoco"))
+        }
+        
     }
 }
 
 jacocoTestCoverageVerification {
-   
+   violationRules {
+       rule {
+           limit {
+               minimum = 0.1
+           }
+       }
+   }
 }
 
 sonarqube {
@@ -124,9 +146,6 @@ test {
     finalizedBy jacocoTestReport
 }
 
-jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
-}
 
 test.finalizedBy jacocoTestReport
 jacocoTestCoverageVerification.dependsOn jacocoTestReport
