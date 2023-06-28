@@ -27,6 +27,7 @@ spring:
         user: ${PGUSER}
         password: ${PGPASSWORD}
         locations: "classpath:db/migration"
+        clean-disabled: false
     h2:
         console:
             enabled: true
