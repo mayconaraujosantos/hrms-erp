@@ -4,6 +4,12 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+        environment:
+            - PGDATABASE=railway
+            - PGHOST=containers-us-west-64.railway.app
+            - PGPASSWORD=JltUzY0ceJZaiYjVrFCm
+            - PGPORT=7624
+            - PGUSER=postgres
         ports:
             - "8080:8080"
         env_file:
